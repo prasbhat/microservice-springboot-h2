@@ -11,6 +11,7 @@ import java.time.LocalDate;
  * To-do POJO model class
  */
 @Entity
+@SuppressWarnings("unused")
 public class Todo {
     /**
      * Unique Identifier for the To-do task
@@ -34,6 +35,24 @@ public class Todo {
      * Status of the To-do task
      */
     private String status;
+
+    //Constructors
+
+    /**
+     * Constructor with all parameters
+     * @param id Unique Identifier for the To-do task
+     * @param title Title for the To-do task
+     * @param description Description for the To-do task
+     * @param dueDate Due date for the To-do task
+     * @param status Status of the To-do task
+     */
+    public Todo(Long id, String title, String description, LocalDate dueDate, String status) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+    }
 
     //Getters and setters for all the private variables declared above
 
@@ -83,13 +102,11 @@ public class Todo {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Todo{");
-        sb.append("id=").append(id);
-        sb.append(", title='").append(title).append('\'');
-        sb.append(", description='").append(description).append('\'');
-        sb.append(", dueDate=").append(dueDate);
-        sb.append(", status='").append(status).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "Todo{" + "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", dueDate=" + dueDate +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

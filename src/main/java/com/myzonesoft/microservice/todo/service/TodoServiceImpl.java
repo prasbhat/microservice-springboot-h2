@@ -29,7 +29,7 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
     private static final Logger LOGGER = LoggerFactory.getLogger(TodoServiceImpl.class);
     private final String className = this.getClass().getSimpleName();
 
-    //Autowire the JPA Repository
+    //Autowired the JPA Repository
     @Autowired
     private TodoRepository todoRepository;
 
@@ -57,7 +57,7 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
         Optional<Todo> todoItem = todoRepository.findById(id);
-        LOGGER.debug("Todo item=="+todoItem.toString());
+        LOGGER.debug("Todo item=="+todoItem);
         LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
         return todoItem.orElse(null);
     }
@@ -78,11 +78,9 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
-        finally {
-            LOGGER.debug("isDeleted=="+isDeleted);
-            LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
-            return isDeleted;
-        }
+        LOGGER.debug("isDeleted=="+isDeleted);
+        LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
+        return isDeleted;
     }
 
     /**
@@ -95,7 +93,7 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
         todoItem = todoRepository.save(todoItem);
-        LOGGER.debug("Todo item=="+todoItem.toString());
+        LOGGER.debug("Todo item=="+todoItem);
         LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
         return todoItem;
     }

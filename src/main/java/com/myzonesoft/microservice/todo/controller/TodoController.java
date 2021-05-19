@@ -32,6 +32,7 @@ import java.util.List;
  */
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 @RestController
+@SuppressWarnings("unused")
 public class TodoController implements TodoApplicationConstants {
 
     //Variable declarations
@@ -50,7 +51,7 @@ public class TodoController implements TodoApplicationConstants {
      *
      * @return List of all items of the To-do tasks
      */
-    @GetMapping("/findAll")
+    @GetMapping({"/findAll", "/"})
     public List<Todo> findAllTodoList() {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
@@ -88,7 +89,7 @@ public class TodoController implements TodoApplicationConstants {
     public boolean deleteById(@PathVariable long id) {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
-        Boolean isDeleted = todoService.deleteById(id);
+        boolean isDeleted = todoService.deleteById(id);
         LOGGER.debug("Todo Item deleted=="+isDeleted);
         LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
         return isDeleted;
