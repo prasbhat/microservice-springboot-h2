@@ -14,9 +14,9 @@
 	<name>microservice-springboot-h2</name>
 	<description>Project for Spring Boot with H2 Database</description>
 
-	<properties>
+	<!--<properties>
 		<java.version>14</java.version>
-	</properties>
+	</properties>-->
 
 	<dependencies>
 		<dependency>
@@ -48,6 +48,11 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
