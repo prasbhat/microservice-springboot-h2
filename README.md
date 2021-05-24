@@ -10,7 +10,7 @@ I have created a simple ***microservice application* using Java Spring Boot fram
 I have used relational database called ***Embeddedd H2***, to store the data. 
 Database related settings are placed in _/src/main/resources/application.properties_ file. When we need to change to another relational database, we just have to change the database settings in here.
 
-More detailed documentation regarding this project can be found [here](https://myzonesoft.com/2020/10/28/java-full-stack-application-create-a-backend-application-using-spring-boot-with-hardcoded-data/).
+More detailed documentation regarding this project can be found [here](https://myzonesoft.com/2021/02/21/create-a-microservice-application-using-spring-boot-and-h2-database/).
 
 ## Requirements
 - [JDK 1.8+](https://www.oracle.com/java/technologies/javase-downloads.html) - Java™ Platform, Standard Edition Development Kit
@@ -30,16 +30,16 @@ Right Click on the file and Run as Java Application
 ### Running the application with Maven
 Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html) like so:
 ```shell
-git clone https://github.com/prasbhat/full-stack-applications/springboot-microservice-hardcoded.git
-cd springboot-microservice-hardcoded
+git clone https://github.com/prasbhat/microservice-springboot-h2.git
+cd microservice-springboot-h2
 mvn spring-boot:run
 ```
 
 ### Running the application with Executable JAR
 The code can also be built into a jar and then executed/run. Once the jar is built, run the jar by double clicking on it or by using the command: 
 ```shell
-git clone https://github.com/prasbhat/full-stack-applications/springboot-microservice-hardcoded.git
-cd springboot-microservice-hardcoded
+git clone https://github.com/prasbhat/microservice-springboot-h2.git
+cd microservice-springboot-h2
 mvn package -DskipTests
 java -jar target/springboot-microservice-hardcoded-0.0.1-SNAPSHOT.jar
 ```
