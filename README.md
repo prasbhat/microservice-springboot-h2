@@ -23,7 +23,11 @@ Database related settings are placed in _/src/main/resources/application.propert
 There are several ways to run a Spring Boot application on your local machine. 
 
 ### Using Main method
-One way is to execute the `main` method in the `com.myzonesoft.microservice.todo.MicroserviceSpringbootH2Application` class from your IDE.
+Clone the repository to your local drive.
+```shell
+git clone https://github.com/prasbhat/microservice-springboot-h2.git
+```
+Import the project as "Maven Project" into your favourite IDE and execute the `main` method in the  `com.myzonesoft.microservice.todo.MicroserviceSpringbootH2Application` class from your IDE.
 ```shell
 Right Click on the file and Run as Java Application
 ```
