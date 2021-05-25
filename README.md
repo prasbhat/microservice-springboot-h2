@@ -17,7 +17,7 @@ Database related settings are placed in _/src/main/resources/application.propert
 - [Springboot](https://spring.io/projects/spring-boot) - Framework to ease the bootstrapping and development of new Spring Applications
 - [Maven](https://maven.apache.org/) - Dependency Management
 - [Tomcat](http://tomcat.apache.org/) - The Apache Tomcat® is a Java Servlet container used as web server for running the application
-- [Intellij IDEA IDE] (https://www.jetbrains.com/idea/download/#section=windows) - An IDE for developing the code. You can use any IDE, I have used Intellij IDEA IDE.
+- [Intellij IDEA IDE](https://www.jetbrains.com/idea/download/#section=windows) - An IDE for developing the code. You can use any IDE, I have used Intellij IDEA IDE.
 
 ## Running the application locally
 There are several ways to run a Spring Boot application on your local machine. 
