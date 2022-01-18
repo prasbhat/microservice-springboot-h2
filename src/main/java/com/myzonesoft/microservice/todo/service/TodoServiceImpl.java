@@ -1,7 +1,9 @@
 package com.myzonesoft.microservice.todo.service;
 
 import com.myzonesoft.microservice.todo.model.Todo;
+import com.myzonesoft.microservice.todo.model.TodoTaskComments;
 import com.myzonesoft.microservice.todo.repository.TodoRepository;
+import com.myzonesoft.microservice.todo.repository.TodoTaskCommentsRepository;
 import com.myzonesoft.microservice.todo.util.TodoApplicationConstants;
 
 import org.slf4j.Logger;
@@ -13,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,6 +36,9 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
     //Autowired the JPA Repository
     @Autowired
     private TodoRepository todoRepository;
+
+    @Autowired
+    private TodoTaskCommentsRepository todoTaskCommentsRepository;
 
     /**
      * Method implementation for listing all the items of the To-do tasks
@@ -92,6 +99,15 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
     public Todo createOrUpdate(Todo todoItem) {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
+        Set<TodoTaskComments> todoTaskCommentsSet = todoItem.getTodoTaskCommentsSet();
+        for(TodoTaskComments todoTaskComments: todoTaskCommentsSet){
+            if(todoTaskComments.getTodoTaskCommentsId() == null) {
+                todoTaskComments.setTodoTask(todoItem);
+                todoTaskComments.setCreationDate(LocalDate.now());
+                todoTaskCommentsRepository.save(todoTaskComments);
+            }
+        }
+        todoItem.setCreationDate(LocalDate.now());
         todoItem = todoRepository.save(todoItem);
         LOGGER.debug("Todo item=="+todoItem);
         LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
