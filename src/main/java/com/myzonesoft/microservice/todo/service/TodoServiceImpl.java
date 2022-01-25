@@ -80,6 +80,12 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
         boolean isDeleted = false;
         try {
+            Set<TodoTaskComments> todoTaskCommentsSet = findById(id).getTodoTaskCommentsSet();
+            if(todoTaskCommentsSet != null) {
+                for(TodoTaskComments todoTaskComments: todoTaskCommentsSet) {
+                    todoTaskCommentsRepository.delete(todoTaskComments);
+                }
+            }
             todoRepository.deleteById(id);
             isDeleted = true;
         } catch (Exception ex) {
@@ -100,13 +106,17 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
         Set<TodoTaskComments> todoTaskCommentsSet = todoItem.getTodoTaskCommentsSet();
-        for(TodoTaskComments todoTaskComments: todoTaskCommentsSet){
-            if(todoTaskComments.getTodoTaskCommentsId() == null) {
-                todoTaskComments.setTodoTask(todoItem);
-                todoTaskComments.setCreationDate(LocalDate.now());
-                todoTaskCommentsRepository.save(todoTaskComments);
+
+        if(todoTaskCommentsSet != null) {
+            for (TodoTaskComments todoTaskComments : todoTaskCommentsSet) {
+                if (todoTaskComments.getTodoTaskCommentsId() == null && !todoTaskComments.getTaskComments().isEmpty()) {
+                    todoTaskComments.setTodoTask(todoItem);
+                    todoTaskComments.setCreationDate(LocalDate.now());
+                    todoTaskCommentsRepository.save(todoTaskComments);
+                }
             }
         }
+
         todoItem.setCreationDate(LocalDate.now());
         todoItem = todoRepository.save(todoItem);
         LOGGER.debug("Todo item=="+todoItem);

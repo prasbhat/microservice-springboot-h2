@@ -47,7 +47,7 @@ public class Todo {
     private String status;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "todoTask", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "todoTask", fetch = FetchType.EAGER)
     private Set<TodoTaskComments> todoTaskCommentsSet;
 
     //Constructors
