@@ -1,10 +1,10 @@
 # microservice-springboot-h2
 
-This is a simple **To-do Tracker Application** which includes columns like _Title, Description, Due Date, Status_.
+This is a simple **To-do Tracker Application** which includes columns like _Title, Description, Due Date, Status, Comments_.
 
-I have created this application through a ***microservice
-application* using Java Spring Boot Framework**, which will act as backend and expose all ***CRUD Operations*** through _REST APIs_,
+I have created this application as a ***microservice* using Java Spring Boot Framework**, which will act as backend and expose all ***CRUD Operations*** through _REST APIs_,
 mentioned in the table below:
+
 | CRUD Operation | HTTP Method | REST API Endpoint |
 |----------------|-------------|-------------------|
 | CREATE | POST | `/create` |
@@ -29,7 +29,7 @@ another relational database, we just have to change the database settings in thi
 
 ## Requirements
 
-- [JDK 1.16+](https://www.oracle.com/java/technologies/javase-downloads.html) - Java™ Platform, Standard Edition
+- [JDK 1.8+](https://www.oracle.com/java/technologies/javase-downloads.html) - Java™ Platform, Standard Edition
   Development Kit
 - [Spring Boot](https://spring.io/projects/spring-boot) - Framework to ease the bootstrapping and development of new
   Spring Applications
@@ -80,4 +80,4 @@ java -jar target/microservice-springboot-h2-0.0.1-SNAPSHOT.jar
 ```
 
 More detailed documentation regarding this project can be 
-found [here](https://myzonesoft.com/2021/02/21/create-a-microservice-application-using-spring-boot-and-h2-database/).
+found [here](https://myzonesoft.com/post/microservice-springboot-h2/).

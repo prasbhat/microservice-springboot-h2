@@ -80,6 +80,7 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
         boolean isDeleted = false;
         try {
+            //Delete the TaskComments before deleting the Todo Tasks.
             Set<TodoTaskComments> todoTaskCommentsSet = findById(id).getTodoTaskCommentsSet();
             if(todoTaskCommentsSet != null) {
                 for(TodoTaskComments todoTaskComments: todoTaskCommentsSet) {
@@ -105,8 +106,10 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
     public Todo createOrUpdate(Todo todoItem) {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
+        //Get the list of TodoTaskComments from the Request Body
         Set<TodoTaskComments> todoTaskCommentsSet = todoItem.getTodoTaskCommentsSet();
 
+        //Save the TodoTaskComments before Todo-Item can be saved
         if(todoTaskCommentsSet != null) {
             for (TodoTaskComments todoTaskComments : todoTaskCommentsSet) {
                 if (todoTaskComments.getTodoTaskCommentsId() == null && !todoTaskComments.getTaskComments().isEmpty()) {
@@ -117,7 +120,10 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
             }
         }
 
-        todoItem.setCreationDate(LocalDate.now());
+        //Set the Creation Date only during initial creation of the task
+        if(todoItem.getCreationDate() == null)
+            todoItem.setCreationDate(LocalDate.now());
+
         todoItem = todoRepository.save(todoItem);
         LOGGER.debug("Todo item=="+todoItem);
         LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
@@ -125,7 +131,8 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
     }
 
     /**
-     * Method implementation for listing all the items of the Status variable
+     * Method implementation for listing all the values of the Status
+     * variable from the Enum
      * @return List of all values of the Status variable
      */
     @Override
