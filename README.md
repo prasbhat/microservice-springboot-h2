@@ -1,31 +1,22 @@
 # microservice-springboot-h2
 
-This is a simple **To-do Tracker Application** which includes columns like _Title, Description, Due Date, Status, Comments_.
+We will build a **Spring Boot Rest CRUD API** for a **Todo Task Application** in that:
 
-I have created this application as a ***microservice* using Java Spring Boot Framework**, which will act as backend and expose all ***CRUD Operations*** through _REST APIs_,
-mentioned in the table below:
+- Each **Todo Task** has *id, title, description, creation date, due date, status and comments*.
+- APIs help to *Create, Read, Update, Delete* **Todo Tasks**.
 
-| CRUD Operation | HTTP Method | REST API Endpoint |
-|----------------|-------------|-------------------|
-| CREATE | POST | `/create` |
-| READ | GET | `/findAll` & `/find/{id}` |
-| UPDATE | PUT | `/update` |
-| DELETE | DELETE | `/deleteById/{id}` |
+Below mentioned are the ***REST APIs*** for CRUD Operations using **Spring Boot**.
 
-I will be using the relational database known as ***H2 Database***, to persist the data. It is called the Java SQL
-database.
+| Description | CRUD Operation  | HTTP Method | REST API Endpoint |
+|:-----------:|:--------------:|:-----------:|:-----------------:|
+| Create New Todo Task | CREATE | POST | `/tasks` |
+| Fetch All Todo Tasks | READ | GET | `/tasks` |
+| Fetch One Todo Task | READ | GET | `/tasks/{id}` |
+| Update One Specific Todo Task | UPDATE | PUT | `/tasks` |
+| Delete One Specific Todo Task | DELETE | DELETE | `/tasks/{id}` |
 
-The main features of H2 Database are:
-
-- Very fast, open source, JDBC API
-- Embedded and server modes; in-memory databases
-- Browser based Console application
-- Small footprint: around 2 MB jar file size
-
-I will be using the _Embedded version of the H2 Database_. We will use Hibernate to interact with the database.
-
-Database related settings are placed in _/src/main/resources/application.properties_ file. When we need to change to
-another relational database, we just have to change the database settings in this file.
+**Spring Boot Framework** will serve as back-end server and I will be using ***Relational Database*** known as 
+**H2 Database**, *it is also known as an Embedded Java Database*, for persisting(storing) the data.
 
 ## Requirements
 
@@ -52,7 +43,7 @@ git clone https://github.com/prasbhat/microservice-springboot-h2.git
 ```
 
 Import the project as "Maven Project" into your favourite IDE and execute the `main` method in
-the  `com.myzonesoft.microservice.todo.MicroserviceSpringbootH2Application` class from your IDE.
+the  `MicroserviceSpringbootH2Application` class from your IDE.
 
 `Right Click on the file and Run as Java Application`
 

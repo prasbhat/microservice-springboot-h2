@@ -1,4 +1,4 @@
-package com.myzonesoft.microservice.todo.model;
+package com.myzonesoft.todo.microservice.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -25,8 +25,8 @@ public class TodoTaskComments {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="id", nullable=false)
-    private Todo todoTask;
+    @JoinColumn(name="systemTasksId", nullable=false)
+    private Tasks todoTask;
 
     //Constructors
 
@@ -73,11 +73,11 @@ public class TodoTaskComments {
         this.creationDate = creationDate;
     }
 
-    public Todo getTodoTask() {
+    public Tasks getTodoTask() {
         return todoTask;
     }
 
-    public void setTodoTask(Todo todoTask) {
+    public void setTodoTask(Tasks todoTask) {
         this.todoTask = todoTask;
     }
 

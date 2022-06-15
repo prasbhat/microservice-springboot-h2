@@ -1,6 +1,6 @@
-package com.myzonesoft.microservice.todo.repository;
+package com.myzonesoft.todo.microservice.repository;
 
-import com.myzonesoft.microservice.todo.model.TodoTaskComments;
+import com.myzonesoft.todo.microservice.model.TodoTaskComments;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

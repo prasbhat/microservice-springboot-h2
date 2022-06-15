@@ -1,10 +1,10 @@
-package com.myzonesoft.microservice.todo.service;
+package com.myzonesoft.todo.microservice.service;
 
-import com.myzonesoft.microservice.todo.model.Todo;
-import com.myzonesoft.microservice.todo.model.TodoTaskComments;
-import com.myzonesoft.microservice.todo.repository.TodoRepository;
-import com.myzonesoft.microservice.todo.repository.TodoTaskCommentsRepository;
-import com.myzonesoft.microservice.todo.util.TodoApplicationConstants;
+import com.myzonesoft.todo.microservice.model.Tasks;
+import com.myzonesoft.todo.microservice.model.TodoTaskComments;
+import com.myzonesoft.todo.microservice.repository.TasksRepository;
+import com.myzonesoft.todo.microservice.repository.TodoTaskCommentsRepository;
+import com.myzonesoft.todo.microservice.util.TodoApplicationConstants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,68 +27,68 @@ import java.util.stream.Stream;
  * In this service class data is fetched from database
  */
 @Service
-public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
+public class TodoService implements TodoApplicationConstants {
 
     //Variable declarations
-    private static final Logger LOGGER = LoggerFactory.getLogger(TodoServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TodoService.class);
     private final String className = this.getClass().getSimpleName();
 
     //Autowired the JPA Repository
     @Autowired
-    private TodoRepository todoRepository;
+    private TasksRepository tasksRepository;
 
     @Autowired
     private TodoTaskCommentsRepository todoTaskCommentsRepository;
 
     /**
      * Method implementation for listing all the items of the To-do tasks
-     * @return List of all items of the To-do tasks
+     * @return List of all To-do task objects
      */
-    @Override
-    public List<Todo> findAll() {
+    public List<Tasks> findAll() {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
-        List<Todo> todoList = todoRepository.findAll();
-        LOGGER.debug("Todo list=="+todoList);
+        List<Tasks> tasksList = tasksRepository.findAll();
+        LOGGER.debug("Tasks list=="+tasksList);
         LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
-        return todoList;
+        return tasksList;
     }
 
     /**
-     * Method implementation for listing an item of the To-do task based on id
+     * Method implementation for fetching the single To-do task object, based on Id
      * @param id Unique identifier of the to-do task
-     * @return To-do task based on id
+     * @return Single To-do task object, based on Id
      */
-    @Override
-    public Todo findById(long id) {
+    public Optional<Tasks> findById(long id) {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
-        Optional<Todo> todoItem = todoRepository.findById(id);
-        LOGGER.debug("Todo item=="+todoItem);
+        Optional<Tasks> task = tasksRepository.findById(id);
+        LOGGER.debug("Task=="+task);
         LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
-        return todoItem.orElse(null);
+        return task;
     }
 
     /**
-     * Method implementation for deleting an item from the To-do tasks based on id
+     * Method implementation for deleting an item from the To-do tasks based on Id
      * @param id Unique identifier of the to-do task to be deleted
      * @return True or False
      */
-    @Override
     public boolean deleteById(long id) {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
         boolean isDeleted = false;
         try {
-            //Delete the TaskComments before deleting the Todo Tasks.
-            Set<TodoTaskComments> todoTaskCommentsSet = findById(id).getTodoTaskCommentsSet();
-            if(todoTaskCommentsSet != null) {
-                for(TodoTaskComments todoTaskComments: todoTaskCommentsSet) {
-                    todoTaskCommentsRepository.delete(todoTaskComments);
+            //Delete the TaskComments before deleting the tasks.
+            Optional<Tasks> deletionTask = findById(id);
+            if(deletionTask.isPresent()) {
+                Set<TodoTaskComments> todoTaskCommentsSet = deletionTask.get().getTodoTaskCommentsSet();
+                if (todoTaskCommentsSet != null) {
+                    for (TodoTaskComments todoTaskComments : todoTaskCommentsSet) {
+                        todoTaskCommentsRepository.delete(todoTaskComments);
+                    }
+                    tasksRepository.delete(deletionTask.get());
+                    isDeleted = true;
                 }
             }
-            todoRepository.deleteById(id);
-            isDeleted = true;
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -99,21 +99,21 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
 
     /**
      * Method implementation for creating or updating an item of the To-do task
-     * @param todoItem To-do task object to be updated
+     * @param task To-do task object to be updated
      * @return Newly created or updated to-do task object
      */
-    @Override
-    public Todo createOrUpdate(Todo todoItem) {
+    public Tasks createOrUpdate(Tasks task) {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
-        //Get the list of TodoTaskComments from the Request Body
-        Set<TodoTaskComments> todoTaskCommentsSet = todoItem.getTodoTaskCommentsSet();
 
-        //Save the TodoTaskComments before Todo-Item can be saved
+        //Get the list of TodoTaskComments from the Request Body
+        Set<TodoTaskComments> todoTaskCommentsSet = task.getTodoTaskCommentsSet();
+
+        //Save the TodoTaskComments before task can be saved
         if(todoTaskCommentsSet != null) {
             for (TodoTaskComments todoTaskComments : todoTaskCommentsSet) {
-                if (todoTaskComments.getTodoTaskCommentsId() == null && !todoTaskComments.getTaskComments().isEmpty()) {
-                    todoTaskComments.setTodoTask(todoItem);
+                if (todoTaskComments != null && todoTaskComments.getTodoTaskCommentsId() == null && !todoTaskComments.getTaskComments().isEmpty()) {
+                    todoTaskComments.setTodoTask(task);
                     todoTaskComments.setCreationDate(LocalDate.now());
                     todoTaskCommentsRepository.save(todoTaskComments);
                 }
@@ -121,13 +121,13 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
         }
 
         //Set the Creation Date only during initial creation of the task
-        if(todoItem.getCreationDate() == null)
-            todoItem.setCreationDate(LocalDate.now());
+        if(task.getCreationDate() == null)
+            task.setCreationDate(LocalDate.now());
 
-        todoItem = todoRepository.save(todoItem);
-        LOGGER.debug("Todo item=="+todoItem);
+        task = tasksRepository.save(task);
+        LOGGER.debug("Todo item=="+task);
         LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
-        return todoItem;
+        return task;
     }
 
     /**
@@ -135,14 +135,14 @@ public class TodoServiceImpl implements TodoService, TodoApplicationConstants {
      * variable from the Enum
      * @return List of all values of the Status variable
      */
-    @Override
     public List<String> getTodoStatusAsList() {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
 
-        List<String> statusList = Stream.of(TODO_STATUS.values()).map(TODO_STATUS::name).collect(Collectors.toList());
-        LOGGER.debug("statusList=="+statusList);
+        List<String> taskStatusList = Stream.of(TASK_STATUS.values()).map(TASK_STATUS::name).collect(Collectors.toList());
+
+        LOGGER.debug("statusList=="+taskStatusList);
         LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
-        return statusList;
+        return taskStatusList;
     }
 }

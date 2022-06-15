@@ -8,15 +8,11 @@
 		<version>2.3.3.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.myzonesoft.fullstack.architecture</groupId>
+	<groupId>com.myzonesoft.todo</groupId>
 	<artifactId>microservice-springboot-h2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>microservice-springboot-h2</name>
 	<description>Project for Spring Boot with H2 Database</description>
-
-	<!--<properties>
-		<java.version>14</java.version>
-	</properties>-->
 
 	<dependencies>
 		<dependency>
