@@ -111,11 +111,11 @@ public class TodoService implements TodoApplicationConstants {
 
         //Save the TodoTaskComments before task can be saved
         if(todoTaskCommentsSet != null) {
-            for (TodoTaskComments todoTaskComments : todoTaskCommentsSet) {
-                if (todoTaskComments != null && todoTaskComments.getTodoTaskCommentsId() == null && !todoTaskComments.getTaskComments().isEmpty()) {
-                    todoTaskComments.setTodoTask(task);
-                    todoTaskComments.setCreationDate(LocalDate.now());
-                    todoTaskCommentsRepository.save(todoTaskComments);
+            for (TodoTaskComments todoTaskComment : todoTaskCommentsSet) {
+                if (todoTaskComment != null && !todoTaskComment.getTaskComments().isEmpty()) {
+                    todoTaskComment.setTodoTask(task);
+                    todoTaskComment.setCreationDate(LocalDate.now());
+                    todoTaskCommentsRepository.save(todoTaskComment);
                 }
             }
         }

@@ -23,10 +23,9 @@ import java.util.Optional;
  * This class is responsible for exposing the REST APIs.
  *
  * CrossOrigin: This is used to accept the requests from cross domain URLs
- *         'http://localhost:3000' = React Frontend Server Domain URL
- *         'http://localhost:4200' = Angular Frontend Server Domain URL
+ *         '<a href="http://localhost:3000">http://localhost:3000</a>' = Frontend Domain URL
  */
-@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:3000" })
 @RequestMapping("/tasks")
 @RestController
 @SuppressWarnings("unused")
